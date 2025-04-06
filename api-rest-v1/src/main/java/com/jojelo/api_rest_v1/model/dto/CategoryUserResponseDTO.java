@@ -11,11 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CategoryResponseDTO {
-    private int id;
+public class CategoryUserResponseDTO {
     private String name;
     private String slug;
     private String image;
-    private String creationAt;
-    private String updatedAt;
 }

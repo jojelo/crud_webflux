@@ -1,4 +1,4 @@
-package com.jojelo.api_rest_v1.model.dto;
+package com.jojelo.api_rest_v1.apicaller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
