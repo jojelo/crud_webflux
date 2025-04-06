@@ -11,4 +11,6 @@ public interface ProductService {
 
     Mono<ProductUserResponseDTO> getProductById(Long id);
 
+    Mono<Long> countAllProducts();
+
 }

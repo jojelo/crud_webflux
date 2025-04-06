@@ -35,4 +35,9 @@ public class ProductController {
                 .map(ResponseEntity::ok);
 //                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
+
+    @GetMapping(value = "count")
+    public Mono<Long> countAllProducts() {
+        return productService.countAllProducts();
+    }
 }

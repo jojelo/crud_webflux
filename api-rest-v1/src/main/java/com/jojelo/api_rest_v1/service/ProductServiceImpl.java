@@ -39,4 +39,17 @@ public class ProductServiceImpl implements ProductService {
                 }));
         return res;
     }
+
+    @Override
+    public Mono<Long> countAllProducts() {
+        return apiDataCaller.getAllProducts()
+                .count()
+                .doOnSuccess(count -> {
+                    if (count == 0) {
+                        log.info("No se encontraron productos");
+                    } else {
+                        log.info("Total de productos: {}", count);
+                    }
+                });
+    }
 }
