@@ -1,5 +1,6 @@
 package com.jojelo.api_rest_v1.apicaller;
 
+import com.jojelo.api_rest_v1.apicaller.dto.ProductRequestDTO;
 import com.jojelo.api_rest_v1.config.ApplicationProperties;
 import com.jojelo.api_rest_v1.apicaller.dto.ProductResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +37,31 @@ public class ApiDataCaller {
                 .uri("/products/{id}", id)
                 .retrieve()
                 .bodyToMono(ProductResponseDTO.class)
-                .doOnNext(product -> log.info("Product retrieved: {}", product))
-                .doOnError(error -> log.error("Error retrieving products", error))
-                .doOnSuccess(product -> log.info("Product retrieval completed"));
+                .doOnSuccess(product -> log.info("Product retrieval completed"))
+                .doOnError(error -> log.error("Error retrieving products", error));
+    }
+
+    public Mono<ProductResponseDTO> createProduct(ProductRequestDTO productRequestDTO) {
+        return webClientBuilder.baseUrl(applicationProperties.getBaseUrl())
+                .build()
+                .post()
+                .uri("/products")
+                .bodyValue(productRequestDTO)
+                .retrieve()
+                .bodyToMono(ProductResponseDTO.class)
+                .doOnSuccess(product -> log.info("Producto creado con éxito: {}", product))
+                .doOnError(error -> log.error("Error al crear el producto {}", error.getMessage()));
+    }
+
+    public Mono<Boolean> deleteProduct(Long id) {
+        return webClientBuilder.baseUrl(applicationProperties.getBaseUrl())
+                .build()
+                .delete()
+                .uri("/products/{id}", id)
+                .retrieve()
+                .bodyToMono(Void.class)
+                .thenReturn(true)
+                .doOnSuccess(v -> log.info("Producto con ID {} eliminado con éxito", id))
+                .doOnError(error -> log.error("Error al eliminar el producto con ID {}: {}", id, error.getMessage()));
     }
 }

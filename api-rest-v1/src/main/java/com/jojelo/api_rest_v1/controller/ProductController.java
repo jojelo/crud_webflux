@@ -1,13 +1,12 @@
 package com.jojelo.api_rest_v1.controller;
 
+import com.jojelo.api_rest_v1.apicaller.dto.ProductRequestDTO;
 import com.jojelo.api_rest_v1.model.dto.ProductUserResponseDTO;
 import com.jojelo.api_rest_v1.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -39,5 +38,16 @@ public class ProductController {
     @GetMapping(value = "count")
     public Mono<Long> countAllProducts() {
         return productService.countAllProducts();
+    }
+
+    @PostMapping(value = "/new-product")
+    public Mono<ResponseEntity<ProductUserResponseDTO>> createProduct(@RequestBody ProductRequestDTO productRequestDTO) {
+        return productService.createProduct(productRequestDTO)
+                .map(res -> ResponseEntity.status(HttpStatus.CREATED).body(res));
+    }
+
+    @DeleteMapping(value = "/delete/{id}")
+    public Mono<Boolean> deleteProduct(@PathVariable Long id) {
+        return productService.deleteProduct(id);
     }
 }
