@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: api-rest-v1
+  webflux:
+    base-path: /api/rest-v1
+
+server:
+  port: 8082
+http-client:
+  api-rest-v1:
+    base-url: https://api.escuelajs.co/api/v1
+    timeout: 5000
